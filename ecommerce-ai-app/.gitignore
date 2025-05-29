@@ -159,3 +159,6 @@ mobile/android/.gradle/
 mobile/android/local.properties
 mobile/android/app/release/
 mobile/android/app/debug/ 
+
+# file: .gitignore
+.env
