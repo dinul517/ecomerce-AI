@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ecommerce-AI/static/css/main.27253ca7.css",
+    "main.js": "/ecommerce-AI/static/js/main.0fb788c6.js",
+    "index.html": "/ecommerce-AI/index.html",
+    "main.27253ca7.css.map": "/ecommerce-AI/static/css/main.27253ca7.css.map",
+    "main.0fb788c6.js.map": "/ecommerce-AI/static/js/main.0fb788c6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27253ca7.css",
+    "static/js/main.0fb788c6.js"
+  ]
+}
