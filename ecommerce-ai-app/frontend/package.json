@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://dinul517.github.io/ecommerce-AI/",
+  "homepage": "https://dinul517.github.io/ecomerce-AI/",
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
