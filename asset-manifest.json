@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ecomerce-AI/static/css/main.27253ca7.css",
-    "main.js": "/ecomerce-AI/static/js/main.0fb788c6.js",
+    "main.js": "/ecomerce-AI/static/js/main.21a1b2a4.js",
     "index.html": "/ecomerce-AI/index.html",
     "main.27253ca7.css.map": "/ecomerce-AI/static/css/main.27253ca7.css.map",
-    "main.0fb788c6.js.map": "/ecomerce-AI/static/js/main.0fb788c6.js.map"
+    "main.21a1b2a4.js.map": "/ecomerce-AI/static/js/main.21a1b2a4.js.map"
   },
   "entrypoints": [
     "static/css/main.27253ca7.css",
-    "static/js/main.0fb788c6.js"
+    "static/js/main.21a1b2a4.js"
   ]
 }
