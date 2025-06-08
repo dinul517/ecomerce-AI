@@ -15,7 +15,7 @@ import Settings from "./pages/Settings";
 
 function App() {
   return (
-    <Router basename="/ecomerce-AI">
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} /> {/* ✅ Tambahkan ini */}
         <Route path="/login" element={<Login />} />
