@@ -2,16 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const authRoutes = require("./routes/authRoutes");
-const productRoutes = require("./routes/productRoutes");
+const authRoutes = require("./routes/authroutes");
+const productRoutes = require("./routes/productroutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
-const checkoutRoutes = require("./routes/checkoutRoutes");
-const cartRoutes = require("./routes/cartRoutes");
+const checkoutRoutes = require("./routes/checkoutroutes");
+const cartRoutes =require("./routes/cartroutes");
 const statsRoutes = require("./routes/statsRoutes");
 const userRoutes = require("./routes/userRoutes");
 const savedItemRoutes = require("./routes/savedItemRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const chatRoutes = require('./routes/chatRoutes');
+const promoRoutes = require('./routes/promoRoutes');
 
 const app = express();
 
