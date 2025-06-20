@@ -1,7 +1,7 @@
 // routes/cartroutes.js
 const express = require("express");
 const router = express.Router();
-const { addToCart, getCart, updateCartItem, removeCartItem } = require("../controllers/cartController");
+const { addToCart, getCart, updateCartItem, removeCartItem } = require("../controllers/cartcontroller");
 const { protect } = require("../middleware/authmiddleware");
 
 // POST /api/cart → tambah ke cart

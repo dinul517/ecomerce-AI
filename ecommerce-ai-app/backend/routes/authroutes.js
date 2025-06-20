@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/authController");
+const { register, login } = require("../controllers/authcontroller");
 const { protect } = require("../middleware/authmiddleware");
 const User = require("../models/userModel"); // ✅ kalau mau return user
 
