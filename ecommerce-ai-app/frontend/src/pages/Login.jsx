@@ -14,7 +14,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const res = await axios.post(`${apiUrl}/api/auth/login`, {
         email,
         password,
       });
@@ -22,7 +23,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       // Setelah login, fetch profil user untuk cek role
       try {
-        const profileRes = await axios.get("http://localhost:5000/api/users/profile", {
+        const profileRes = await axios.get(`${apiUrl}/api/users/profile`, {
           headers: { Authorization: `Bearer ${res.data.token}` }
         });
         const role = profileRes.data.role;
