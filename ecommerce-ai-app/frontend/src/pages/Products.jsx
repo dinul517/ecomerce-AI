@@ -15,7 +15,8 @@ const Products = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await axios.get(`http://localhost:5000/api/products?category=${selectedCategory}&search=${searchTerm}`);
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const res = await axios.get(`${apiUrl}/api/products?category=${selectedCategory}&search=${searchTerm}`);
       setProducts(res.data);
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -33,12 +34,17 @@ const Products = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/cart", {
-        productId,
-        quantity: 1,
-      }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      await axios.post(
+        `${apiUrl}/api/cart`,
+        {
+          productId,
+          quantity: 1,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       alert("Produk berhasil ditambahkan ke keranjang!");
     } catch (err) {
@@ -48,7 +54,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, fetchProducts]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">

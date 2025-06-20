@@ -26,11 +26,11 @@ const Cart = () => {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/cart", {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+        const response = await axios.get(`${apiUrl}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        setCartItems(res.data.items || []);
+        setCartItems(response.data.items || []);
         setLoading(false);
       } catch (err) {
         console.error("Gagal ambil cart:", err.message);
@@ -48,12 +48,13 @@ const Cart = () => {
     const token = localStorage.getItem("token");
     setUpdating(true);
     try {
-      const res = await axios.put(
-        "http://localhost:5000/api/cart",
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const response = await axios.put(
+        `${apiUrl}/api/cart`,
         { productId, quantity: newQuantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setCartItems(res.data.items || []);
+      setCartItems(response.data.items || []);
     } catch (err) {
       alert("Gagal update quantity: " + (err.response?.data?.message || err.message));
     } finally {
@@ -64,8 +65,9 @@ const Cart = () => {
   const handleRemoveItem = async (productId) => {
     const token = localStorage.getItem("token");
     try {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
       const response = await axios.delete(
-        `http://localhost:5000/api/cart/${productId}`,
+        `${apiUrl}/api/cart/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCartItems(response.data.items || []);
@@ -87,8 +89,9 @@ const Cart = () => {
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/checkout",
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const response = await axios.post(
+        `${apiUrl}/api/checkout`,
         { shippingMethod },
         {
           headers: { Authorization: `Bearer ${token}` },
