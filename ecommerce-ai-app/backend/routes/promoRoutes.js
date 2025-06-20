@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { protect, admin } = require('../middleware/authmiddleware');
+const { protect } = require('../middleware/authmiddleware');
+const { isAdmin } = require('../middleware/isAdmin');
 const {
   createPromo,
   getActivePromos,
@@ -8,7 +9,7 @@ const {
 } = require('../controllers/promoController');
 
 // Admin routes
-router.post('/', protect, admin, createPromo);
+router.post('/', protect, isAdmin, createPromo);
 
 // Public routes
 router.get('/active', getActivePromos);
