@@ -17,7 +17,19 @@ const promoRoutes = require('./routes/promoRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:3000', 
+    'https://ecommerce-ai.vercel.app', // URL utama
+    'https://ecommerce-76k5vegq3-dinuls-projects.vercel.app', // URL deployment terakhir
+    process.env.FRONTEND_URL // Tambahkan ini jika Anda punya variabel di .env
+  ].filter(Boolean),
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Basic route test
