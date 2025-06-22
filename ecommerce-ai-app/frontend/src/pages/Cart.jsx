@@ -90,7 +90,7 @@ const Cart = () => {
     const token = localStorage.getItem("token");
     try {
       const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
-      const response = await axios.post(
+      await axios.post(
         `${apiUrl}/api/checkout`,
         { shippingMethod },
         {

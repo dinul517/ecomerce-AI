@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ProductCard from "../component/Productcard";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const Products = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -24,7 +24,7 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory, searchTerm]);
 
   const handleAddToCart = async (productId) => {
     const token = localStorage.getItem("token");
@@ -54,7 +54,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [selectedCategory, searchTerm, fetchProducts]);
+  }, [fetchProducts]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">
