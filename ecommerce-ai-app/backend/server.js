@@ -17,13 +17,25 @@ const promoRoutes = require('./routes/promoRoutes');
 const app = express();
 
 // Middleware
+const whitelist = [
+  'http://localhost:3000',
+  'https://ecommerce-ai.vercel.app', // Domain utama Vercel
+  'https://ecommerce-76k5vegq3-dinuls-projects.vercel.app' // URL deployment terakhir
+];
+
+if (process.env.FRONTEND_URL) {
+  whitelist.push(process.env.FRONTEND_URL);
+}
+
 const corsOptions = {
-  origin: [
-    'http://localhost:3000', 
-    'https://ecommerce-ai.vercel.app', // URL utama
-    'https://ecommerce-76k5vegq3-dinuls-projects.vercel.app', // URL deployment terakhir
-    process.env.FRONTEND_URL // Tambahkan ini jika Anda punya variabel di .env
-  ].filter(Boolean),
+  origin: function (origin, callback) {
+    // Izinkan jika origin ada di whitelist atau jika tidak ada origin (seperti dari Postman/curl)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
