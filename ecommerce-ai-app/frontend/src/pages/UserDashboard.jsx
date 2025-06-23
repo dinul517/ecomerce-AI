@@ -30,26 +30,21 @@ const UserDashboard = () => {
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
-    axios.get(`${apiUrl}/api/users/profile`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then((res) => setProfile(res.data))
-      .catch(() => setError("Gagal mengambil data user"));
-    axios.get(`${apiUrl}/api/stats/user`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then((res) => setStats(res.data))
-      .catch(() => setError("Gagal mengambil data statistik"));
-    axios.get(`${apiUrl}/api/orders/recent`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then((res) => setRecentOrders(res.data))
-      .catch(() => setError("Gagal mengambil data pesanan"));
-    axios.get(`${apiUrl}/api/cart`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then((res) => setCart(res.data.items || []))
-      .catch(() => setError("Gagal mengambil data keranjang"));
+    setLoading(true);
+    Promise.all([
+      axios.get(`${apiUrl}/api/users/profile`, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${apiUrl}/api/stats/user`, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${apiUrl}/api/orders/recent`, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${apiUrl}/api/cart`, { headers: { Authorization: `Bearer ${token}` } }),
+    ])
+      .then(([profileRes, statsRes, ordersRes, cartRes]) => {
+        setProfile(profileRes.data);
+        setStats(statsRes.data);
+        setRecentOrders(ordersRes.data);
+        setCart(cartRes.data.items || []);
+      })
+      .catch(() => setError("Gagal mengambil data user/dashboard"))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return (
