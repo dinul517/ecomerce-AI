@@ -11,11 +11,13 @@ const ProductRecommendations = () => {
   // Default image jika gambar tidak tersedia
   const defaultImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
 
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const trackProductInteraction = async (productId, interactionType) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/recommendations/track',
+        `${apiUrl}/api/recommendations/track`,
         { productId, interactionType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -47,9 +49,10 @@ const ProductRecommendations = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:5000/api/recommendations/recommendations', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await axios.get(
+          `${apiUrl}/api/recommendations/recommendations`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         // Validasi dan normalisasi data gambar
         const validatedData = response.data.map(product => ({

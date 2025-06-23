@@ -11,8 +11,9 @@ const Users = () => {
       setLoading(true);
       setError(null);
       try {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/users", {
+        const res = await axios.get(`${apiUrl}/api/users`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUsers(res.data);
@@ -27,9 +28,10 @@ const Users = () => {
 
   const handleDelete = async (userId) => {
     if (!window.confirm("Yakin ingin menghapus user ini?")) return;
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`, {
+      await axios.delete(`${apiUrl}/api/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(users => users.filter(u => u._id !== userId));

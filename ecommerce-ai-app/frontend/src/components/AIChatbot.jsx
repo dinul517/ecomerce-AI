@@ -25,10 +25,12 @@ const AIChatbot = () => {
     scrollToBottom();
   }, [messages]);
 
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const fetchChatSession = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/chat/session', {
+      const response = await axios.get(`${apiUrl}/api/chat/session`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessages(response.data.messages || []);
@@ -56,7 +58,7 @@ const AIChatbot = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/chat/message',
+        `${apiUrl}/api/chat/message`,
         { message: userMessage },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -77,9 +79,11 @@ const AIChatbot = () => {
   const handleClose = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/chat/close', {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(
+        `${apiUrl}/api/chat/close`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     } catch (error) {
       console.error('Error closing chat:', error);
     } finally {

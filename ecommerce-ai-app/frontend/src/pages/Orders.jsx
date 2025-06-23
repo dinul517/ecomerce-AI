@@ -11,8 +11,9 @@ const Orders = () => {
       setLoading(true);
       setError(null);
       try {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/orders", {
+        const res = await axios.get(`${apiUrl}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(res.data);
@@ -26,9 +27,10 @@ const Orders = () => {
   }, []);
 
   const handleUpdateStatus = async (orderId, newStatus) => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
     try {
-      await axios.put(`http://localhost:5000/api/orders/${orderId}`, { status: newStatus }, {
+      await axios.put(`${apiUrl}/api/orders/${orderId}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(orders => orders.map(o => o._id === orderId ? { ...o, status: newStatus } : o));

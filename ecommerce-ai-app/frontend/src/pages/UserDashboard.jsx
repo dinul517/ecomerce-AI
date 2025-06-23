@@ -28,37 +28,28 @@ const UserDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const token = localStorage.getItem("token");
-        const [profileRes, statsRes, ordersRes, cartRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/users/profile", {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get("http://localhost:5000/api/stats/user", {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get("http://localhost:5000/api/orders/recent", {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get("http://localhost:5000/api/cart", {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-        ]);
-        
-        setProfile(profileRes.data);
-        setStats(statsRes.data);
-        setRecentOrders(ordersRes.data);
-        setCart(cartRes.data);
-      } catch (err) {
-        setError("Gagal mengambil data user");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserData();
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    const token = localStorage.getItem("token");
+    axios.get(`${apiUrl}/api/users/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => setProfile(res.data))
+      .catch(() => setError("Gagal mengambil data user"));
+    axios.get(`${apiUrl}/api/stats/user`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => setStats(res.data))
+      .catch(() => setError("Gagal mengambil data statistik"));
+    axios.get(`${apiUrl}/api/orders/recent`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => setRecentOrders(res.data))
+      .catch(() => setError("Gagal mengambil data pesanan"));
+    axios.get(`${apiUrl}/api/cart`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => setCart(res.data.items || []))
+      .catch(() => setError("Gagal mengambil data keranjang"));
   }, []);
 
   if (loading) return (
@@ -247,9 +238,9 @@ const UserDashboard = () => {
                 </div>
                 <h2 className="text-xl font-semibold text-gray-800">Keranjang Belanja</h2>
               </div>
-              {cart?.items && cart.items.length > 0 ? (
+              {cart && cart.length > 0 ? (
                 <div className="space-y-4">
-                  {cart.items.map((item) => (
+                  {cart.map((item) => (
                     <div key={item._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-4">
                         <img 
@@ -273,7 +264,7 @@ const UserDashboard = () => {
                   <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg mt-4">
                     <p className="font-semibold text-gray-800">Total</p>
                     <p className="font-bold text-lg text-blue-600">
-                      Rp {cart.items.reduce((sum, item) => sum + (item.product?.price * item.quantity), 0)?.toLocaleString()}
+                      Rp {cart.reduce((sum, item) => sum + (item.product?.price * item.quantity), 0)?.toLocaleString()}
                     </p>
                   </div>
                   <button 

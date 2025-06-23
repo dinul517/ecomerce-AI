@@ -7,17 +7,18 @@ const Stats = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    const token = localStorage.getItem("token");
     const fetchStats = async () => {
       setLoading(true);
       setError(null);
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/stats/admin", {
+        const res = await axios.get(`${apiUrl}/api/stats/admin`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setStats(res.data);
       } catch (err) {
-        setError("Gagal mengambil data statistik");
+        setError("Gagal mengambil statistik");
       } finally {
         setLoading(false);
       }
