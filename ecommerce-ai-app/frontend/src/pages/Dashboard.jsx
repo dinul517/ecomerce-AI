@@ -34,8 +34,10 @@ const Dashboard = () => {
       setError(null);
       try {
         const token = localStorage.getItem("token");
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
         // Fetch products (produk publik, tidak perlu token)
-        const productsRes = await axios.get("http://localhost:5000/api/products");
+        const productsRes = await axios.get(`${apiUrl}/api/products`);
         const products = productsRes.data;
         // Count categories for pie chart
         const categoryCount = {};
@@ -45,7 +47,7 @@ const Dashboard = () => {
         const pie = Object.entries(categoryCount).map(([name, value]) => ({ name, value }));
 
         // Fetch orders (perlu token)
-        const ordersRes = await axios.get("http://localhost:5000/api/orders", {
+        const ordersRes = await axios.get(`${apiUrl}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const orders = ordersRes.data;
@@ -60,7 +62,7 @@ const Dashboard = () => {
         }));
 
         // Fetch users (perlu token)
-        const usersRes = await axios.get("http://localhost:5000/api/users", {
+        const usersRes = await axios.get(`${apiUrl}/api/users`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const users = usersRes.data;
